@@ -160,14 +160,14 @@
         console.log("prevWeek");
         curWeekBeginDate.subtract(7, "day");
         curWeekEndDate.subtract(7, "day");
-        renderWeekTitle();
+        renderCalendar();
     }
 
     function nextWeek() {
         console.log("nextWeek");
         curWeekBeginDate.add(7, "day");
         curWeekEndDate.add(7, "day");
-        renderWeekTitle();
+        renderCalendar();
     }
 
     // Month dd, YYYY format
@@ -186,14 +186,6 @@
 
     function renderCalendar() {
         console.log("renderCalendar");
-        
-        curDate = moment();
-        curWeekBeginDate = moment();
-        curWeekEndDate = moment();
-
-        // get day of week
-        curWeekBeginDate.startOf("week");
-        curWeekEndDate.endOf("week");
 
         renderWeekTitle();
 
@@ -219,13 +211,25 @@
             scheduleHTML += "</tr>";
             halfHour = !halfHour;
         };
-        $("table").append(scheduleHTML);
+        $("table").html(scheduleHTML);
+    }
+
+    function initCalendar() {
+      curDate = moment();
+      curWeekBeginDate = moment();
+      curWeekEndDate = moment();
+
+      // get day of week
+      curWeekBeginDate.startOf("week");
+      curWeekEndDate.endOf("week");
+
+      renderCalendar();
     }
 
     $(document).ready(function(){
         console.log("ready");
         $.material.init();
-        renderCalendar();
+        initCalendar();
 
         $('#datePicker').datepicker({
           format: "mm-dd-yyyy"
