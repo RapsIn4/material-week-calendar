@@ -136,6 +136,13 @@
       var startTime = $("#startTime").val();
       var endTime = $("#endTime").val();
 
+      // invalid input
+      if (bookingName == "" || datePicker == "" || startTime == "" || endTime == "") {
+        alert("Fill in the empty blanks");
+        return;
+      }
+
+
       var str1 = datePicker + " " + startTime;
       var str2 = datePicker + " " + endTime;
       var startDate = moment(str1, "MM-DD-YYYY H:m", true);
@@ -235,8 +242,14 @@
           format: "mm-dd-yyyy"
         });
 
-        $('#startTime').timepicker({showMeridian:false});
-        $('#endTime').timepicker({showMeridian:false});
+        $('#startTime').timepicker({showMeridian:false,minuteStep: 5,
+                showInputs: false,
+                disableFocus: true
+});
+        $('#endTime').timepicker({showMeridian:false,minuteStep: 5,
+                showInputs: false,
+                disableFocus: true
+});
     });
 
 </script>
