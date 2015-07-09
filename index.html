@@ -75,7 +75,7 @@
                     <div class="modal-body">
                       <div class="input-group" style="margin-top:15px;">
                         <span class="input-group-addon" id="sizing-addon2"><i class="mdi-action-grade"></i></span>
-                        <input type="text" class="form-control" placeholder="Name" aria-describedby="sizing-addon2" name="name">
+                        <input type="text" class="form-control" placeholder="Name" aria-describedby="sizing-addon2" id="bookingName">
                       </div>
                       <div class="input-group" style="margin-top:15px;">
                         <span class="input-group-addon" id="sizing-addon2"><i class="mdi-action-event"></i></span>
@@ -84,13 +84,13 @@
                       <div class="input-group" style="margin-top:15px;">
                         <span class="input-group-addon" id="sizing-addon2"><i class="mdi-action-alarm"></i></span>
                         <div class="input-append bootstrap-timepicker">
-                          <input id="timeStart" type="text" class="form-control input-small"> to <input id="timeEnd" type="text" class="form-control input-small">
+                          <input id="startTime" type="text" class="form-control input-small"> to <input id="endTime" type="text" class="form-control input-small">
                         </div>
                       </div>
                       
                     </div>
                     <div class="modal-footer">
-                      <button class="btn btn-primary" data-dismiss="modal">Add</button>
+                      <button class="btn btn-primary" onclick="addBooking();">Add</button>
                       <button class="btn btn-default" data-dismiss="modal">Dismiss</button>
                     </div>
                   </div>
@@ -122,57 +122,61 @@
 
 <script>
     // globals
-    var calendar;
+    var calendar = [];
     var curDate;
-    var curDayofWeek;
-
     var curWeekBeginDate; // sunday of the week
     var curWeekEndDate    // saturday
 
     // classes
-
-    // used booking because event is a keyword
-    // and I didn't want to use event_ (with underscore)
-    function booking(name, start, end) {
-        this.name = name;
-        // start and end are Date objects
-        this.start = start;
-        this.end = end;
+    function booking (name, end) {
+      this.name = name;
+      this.end = end;
     }
 
-
     // functions
-    function addBooking(booking) {
+    function addBooking() {
+      var bookingName = $("#bookingName").val();
+      var datePicker = $("#datePicker").val();
+      var startTime = $("#startTime").val();
+      var endTime = $("#endTime").val();
 
+      var str1 = datePicker + " " + startTime;
+      var str2 = datePicker + " " + endTime;
+
+      console.log(str1);
+      console.log(str2);
+
+      var startDate = moment(str1, "mm-dd-yyyy hh:mm a");
+      var endDate = moment(str2, "mm-dd-yyyy hh:mm a");
+
+      console.log(startDate.isValid());
+
+      var newBooking = new booking(bookingName, startDate, endDate);
+
+      console.log(startDate.format());
+      console.log(endDate.format());
+
+      calendar[startDate.unix()] = newBooking;
+      calendar.sort();
     }
 
     function prevWeek() {
         console.log("prevWeek");
-        curWeekBeginDate.setDate(curWeekBeginDate.getDate()-7);
-        curWeekEndDate.setDate(curWeekEndDate.getDate()-7);
+        curWeekBeginDate.subtract(7, "day");
+        curWeekEndDate.subtract(7, "day");
         renderWeekTitle();
     }
 
     function nextWeek() {
         console.log("nextWeek");
-        curWeekBeginDate.setDate(curWeekBeginDate.getDate()+7);
-        curWeekEndDate.setDate(curWeekEndDate.getDate()+7);
+        curWeekBeginDate.add(7, "day");
+        curWeekEndDate.add(7, "day");
         renderWeekTitle();
     }
 
     // Month dd, YYYY format
-    function dateToStr(date) {
-        var monthNames = [
-            "January", "February", "March",
-            "April", "May", "June", "July",
-            "August", "September", "October",
-            "November", "December"
-        ];
-        var day = date.getDate();
-        var monthIndex = date.getMonth();
-        var year = date.getFullYear();
-
-        return monthNames[monthIndex] + " " + day + ", " + year;
+    function dateToStr(moment) {
+        return moment.format("MMM D, YYYY")
     }
 
     function renderWeekTitle() {
@@ -187,14 +191,13 @@
     function renderCalendar() {
         console.log("renderCalendar");
         
-        curDate = new Date();
-        curWeekBeginDate = new Date();
-        curWeekEndDate = new Date();
+        curDate = moment();
+        curWeekBeginDate = moment();
+        curWeekEndDate = moment();
 
         // get day of week
-        curDayofWeek = curDate.getDay();
-        curWeekBeginDate.setDate(curDate.getDate()-curDayofWeek);
-        curWeekEndDate.setDate(curWeekBeginDate.getDate()+7);
+        curWeekBeginDate.startOf("week");
+        curWeekEndDate.endOf("week");
 
         renderWeekTitle();
 
@@ -220,11 +223,11 @@
         renderCalendar();
 
         $('#datePicker').datepicker({
-          format: "dd/mm/yyyy"
+          format: "mm-dd-yyyy"
         });
 
-        $('#timeStart').timepicker();
-        $('#timeEnd').timepicker();
+        $('#startTime').timepicker();
+        $('#endTime').timepicker();
     });
 
 </script>
