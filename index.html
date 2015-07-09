@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Calendar for Encircle</title>
+
+        <!-- Mobile support -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Twitter Bootstrap -->
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Material Design for Bootstrap -->
+        <link href="bower_components/bootstrap-material-design/dist/css/roboto.min.css" rel="stylesheet">
+        <link href="bower_components/bootstrap-material-design/dist/css/material-fullpalette.min.css" rel="stylesheet">
+        <link href="bower_components/bootstrap-material-design/dist/css/ripples.min.css" rel="stylesheet">
+
+        <!-- Dropdown.js -->
+        <link href="http://cdn.rawgit.com/FezVrasta/dropdown.js/master/jquery.dropdown.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="bs-component">
+            <div class="navbar navbar-default navbar-material-orange">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="javascript:void(0)">My Calendar</a>
+                    </div>
+                    <!-- <div class="navbar-collapse collapse navbar-responsive-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="javascript:void(0)">Active</a></li>
+                            <li><a href="javascript:void(0)">Link</a></li>
+                            <li class="dropdown">
+                                <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="javascript:void(0)">Action</a></li>
+                                    <li><a href="javascript:void(0)">Another action</a></li>
+                                    <li><a href="javascript:void(0)">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Dropdown header</li>
+                                    <li><a href="javascript:void(0)">Separated link</a></li>
+                                    <li><a href="javascript:void(0)">One more separated link</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form class="navbar-form navbar-left">
+                            <input type="text" class="form-control col-lg-8" placeholder="Search">
+                        </form>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="javascript:void(0)">Link</a></li>
+                            <li class="dropdown">
+                                <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="javascript:void(0)">Action</a></li>
+                                    <li><a href="javascript:void(0)">Another action</a></li>
+                                    <li><a href="javascript:void(0)">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="javascript:void(0)">Separated link</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h3>Week of <span id="week-title"></span></h3>
+            <div class="text-left">
+                <button class="btn btn-primary" onclick="prevWeek();">Prev</button>
+                <button class="btn btn-primary" onclick="nextWeek();">Next</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tr class="active">
+                    <td>Time</td>
+                    <td>Sunday</td>
+                    <td>Monday</td>
+                    <td>Tuesday</td>
+                    <td>Wednesday</td>
+                    <td>Thursday</td>
+                    <td>Friday</td>
+                    <td>Saturday</td>
+                </tr>
+                
+              </table>
+            </div>
+            
+        </div>
+    </body>
+</html>
+
+ <!-- jQuery -->
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+<!-- Twitter Bootstrap -->
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Material Design for Bootstrap -->
+<script src="bower_components/bootstrap-material-design/dist/js/material.min.js"></script>
+<script src="bower_components/bootstrap-material-design/dist/js/ripples.min.js"></script>
+
+<script>
+    // globals
+    var calendar;
+    var curDate;
+    var curDayofWeek;
+
+    var curWeekBeginDate; // sunday of the week
+    var curWeekEndDate    // saturday
+
+    // classes
+
+    // used booking because event is a keyword
+    // and I didn't want to use event_ (with underscore)
+    function booking(name, date, start, end) {
+        this.name = name;
+        this.date = date;
+        this.start = start;
+        this.end = end;
+    }
+
+
+    // functions
+    function addBooking(booking) {
+
+    }
+
+    function prevWeek() {
+        console.log("prevWeek");
+        curWeekBeginDate.setDate(curWeekBeginDate.getDate()-7);
+        curWeekEndDate.setDate(curWeekEndDate.getDate()-7);
+        renderWeekTitle();
+    }
+
+    function nextWeek() {
+        console.log("nextWeek");
+        curWeekBeginDate.setDate(curWeekBeginDate.getDate()+7);
+        curWeekEndDate.setDate(curWeekEndDate.getDate()+7);
+        renderWeekTitle();
+    }
+
+    function dateToStr(date) {
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+
+        return monthNames[monthIndex] + " " + day + ", " + year;
+    }
+
+    function renderWeekTitle() {
+        var weekTitleStr = "";
+        
+        weekTitleStr += dateToStr(curWeekBeginDate) + " - ";  
+        weekTitleStr += dateToStr(curWeekEndDate);
+
+        $("#week-title").text(weekTitleStr);
+    }
+
+    function renderCalendar() {
+        console.log("renderCalendar");
+        
+        curDate = new Date();
+        curWeekBeginDate = new Date();
+        curWeekEndDate = new Date();
+
+        // get day of week
+        curDayofWeek = curDate.getDay();
+        curWeekBeginDate.setDate(curDate.getDate()-curDayofWeek);
+        curWeekEndDate.setDate(curWeekBeginDate.getDate()+7);
+
+        renderWeekTitle();
+
+        var scheduleHTML = "";
+        var halfHour = false;
+
+        // two cells per hour
+        for (var i = 0; i < 49; i++) {
+            scheduleHTML += "<tr>" + 
+                                "<td>" + Math.floor(i/2) + ":" + ((halfHour) ? "30" : "00") + "</td>";
+                for (var j = 0; j < 7; j++) {
+                    scheduleHTML += "<td></td>";
+                }
+            scheduleHTML += "</tr>";
+            halfHour = !halfHour;
+        };
+        $("table").append(scheduleHTML);
+    }
+
+    $(document).ready(function(){
+        console.log("ready");
+        $.material.init();
+        renderCalendar();
+    });
+
+</script>
