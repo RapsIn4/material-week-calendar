@@ -177,6 +177,16 @@
         renderCalendar();
     }
 
+    function bookingsInWeek() {
+      var result = [];
+      for (var i = 0; i < calendar.length; i++) {
+        if (calendar[i].start.isBetween(curWeekBeginDate, curWeekEndDate)) {
+          result.push(calendar[i]);
+        }
+      }
+      return result;
+    }
+
     // Month dd, YYYY format
     function dateToStr(moment) {
         return moment.format("MMM D, YYYY");
@@ -196,17 +206,22 @@
 
         renderWeekTitle();
 
-        var scheduleHTML = "";
-        var halfHour = false;
+        // get the bookings for the week
+        var curBookings = bookingsInWeek();
+        console.log("curBookings");
+        console.log(curBookings);
 
-        scheduleHTML += '<tr class="active">' +
-                          '<td>Time</td>';
+        var scheduleHTML += '<tr class="active">' +
+                              '<td>Time</td>';
         var iterateDate = curWeekBeginDate.clone();
+        var halfHour = false; // used to alternate between half and full hours
         for (var i = 0; i < 7; i++) {
           scheduleHTML += '<td>' + iterateDate.format("ddd MMM D") + '</td>';
           iterateDate.add(1, 'day');
         };
         scheduleHTML += '</tr>';
+
+        // TODO: Need to add bookings to the calendar
 
         // two cells per hour
         for (var i = 0; i < 49; i++) {
@@ -244,14 +259,14 @@
 
         $('#startTime').timepicker({
           showMeridian:false,
-          minuteStep: 5,
+          minuteStep: 30,
           showInputs: false,
           disableFocus: true
         });
-        
+
         $('#endTime').timepicker({
           showMeridian:false,
-          minuteStep: 5,
+          minuteStep: 30,
           showInputs: false,
           disableFocus: true
         });
