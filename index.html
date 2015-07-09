@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Calendar for Encircle</title>
+        <title>Material Weekly Calendar</title>
 
         <!-- Mobile support -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- Twitter Bootstrap -->
         <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Bootstrap Datepicker -->
+        <link href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+
+        <!-- Bootstrap Timepicker -->
+        <link href="bower_components/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet">
 
         <!-- Material Design for Bootstrap -->
         <link href="bower_components/bootstrap-material-design/dist/css/roboto.min.css" rel="stylesheet">
@@ -20,7 +26,7 @@
 
     <body>
         <div class="bs-component">
-            <div class="navbar navbar-default navbar-material-orange">
+            <div class="navbar navbar-default">
                 <div class="container">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
@@ -28,51 +34,21 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="javascript:void(0)">My Calendar</a>
+                        <a class="navbar-brand" href="javascript:void(0)">Material Weekly Calendar</a>
                     </div>
-                    <!-- <div class="navbar-collapse collapse navbar-responsive-collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="active"><a href="javascript:void(0)">Active</a></li>
-                            <li><a href="javascript:void(0)">Link</a></li>
-                            <li class="dropdown">
-                                <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="javascript:void(0)">Action</a></li>
-                                    <li><a href="javascript:void(0)">Another action</a></li>
-                                    <li><a href="javascript:void(0)">Something else here</a></li>
-                                    <li class="divider"></li>
-                                    <li class="dropdown-header">Dropdown header</li>
-                                    <li><a href="javascript:void(0)">Separated link</a></li>
-                                    <li><a href="javascript:void(0)">One more separated link</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <form class="navbar-form navbar-left">
-                            <input type="text" class="form-control col-lg-8" placeholder="Search">
-                        </form>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="javascript:void(0)">Link</a></li>
-                            <li class="dropdown">
-                                <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="javascript:void(0)">Action</a></li>
-                                    <li><a href="javascript:void(0)">Another action</a></li>
-                                    <li><a href="javascript:void(0)">Something else here</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="javascript:void(0)">Separated link</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div> -->
                 </div>
             </div>
         </div>
         <div class="container">
             <h3>Week of <span id="week-title"></span></h3>
-            <div class="text-left">
+            <div style="padding-bottom:15px;">
                 <button class="btn btn-primary" onclick="prevWeek();">Prev</button>
                 <button class="btn btn-primary" onclick="nextWeek();">Next</button>
+                <button class="btn btn-fab btn-raised btn-primary btn-material-red" data-toggle="modal" data-target="#complete-dialog">
+                    <i class="mdi-image-edit"></i>
+                </button>
             </div>
+
             <div class="table-responsive">
               <table class="table table-bordered table-hover">
                 <tr class="active">
@@ -88,6 +64,38 @@
                 
               </table>
             </div>
+
+            <div id="complete-dialog" class="modal fade" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Add a New Booking</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="input-group" style="margin-top:15px;">
+                        <span class="input-group-addon" id="sizing-addon2"><i class="mdi-action-grade"></i></span>
+                        <input type="text" class="form-control" placeholder="Name" aria-describedby="sizing-addon2" name="name">
+                      </div>
+                      <div class="input-group" style="margin-top:15px;">
+                        <span class="input-group-addon" id="sizing-addon2"><i class="mdi-action-event"></i></span>
+                        <input type="text" class="form-control" placeholder="Date" id="datePicker">
+                      </div>
+                      <div class="input-group" style="margin-top:15px;">
+                        <span class="input-group-addon" id="sizing-addon2"><i class="mdi-action-alarm"></i></span>
+                        <div class="input-append bootstrap-timepicker">
+                          <input id="timeStart" type="text" class="form-control input-small"> to <input id="timeEnd" type="text" class="form-control input-small">
+                        </div>
+                      </div>
+                      
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-primary" data-dismiss="modal">Add</button>
+                      <button class="btn btn-default" data-dismiss="modal">Dismiss</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             
         </div>
     </body>
@@ -98,6 +106,15 @@
 
 <!-- Twitter Bootstrap -->
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap Datepicker -->
+<script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
+<!-- Bootstrap timepicker -->
+<script src="bower_components/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+
+<!-- Moment.js -->
+<script src="bower_components/moment/min/moment.min.js"></script>
 
 <!-- Material Design for Bootstrap -->
 <script src="bower_components/bootstrap-material-design/dist/js/material.min.js"></script>
@@ -116,9 +133,9 @@
 
     // used booking because event is a keyword
     // and I didn't want to use event_ (with underscore)
-    function booking(name, date, start, end) {
+    function booking(name, start, end) {
         this.name = name;
-        this.date = date;
+        // start and end are Date objects
         this.start = start;
         this.end = end;
     }
@@ -143,6 +160,7 @@
         renderWeekTitle();
     }
 
+    // Month dd, YYYY format
     function dateToStr(date) {
         var monthNames = [
             "January", "February", "March",
@@ -200,6 +218,13 @@
         console.log("ready");
         $.material.init();
         renderCalendar();
+
+        $('#datePicker').datepicker({
+          format: "dd/mm/yyyy"
+        });
+
+        $('#timeStart').timepicker();
+        $('#timeEnd').timepicker();
     });
 
 </script>
