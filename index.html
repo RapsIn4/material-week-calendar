@@ -128,8 +128,9 @@
     var curWeekEndDate    // saturday
 
     // classes
-    function booking (name, end) {
+    function booking (name, start, end) {
       this.name = name;
+      this.start = start;
       this.end = end;
     }
 
@@ -142,22 +143,17 @@
 
       var str1 = datePicker + " " + startTime;
       var str2 = datePicker + " " + endTime;
-
-      console.log(str1);
-      console.log(str2);
-
-      var startDate = moment(str1, "mm-dd-yyyy hh:mm a");
-      var endDate = moment(str2, "mm-dd-yyyy hh:mm a");
-
-      console.log(startDate.isValid());
+      var startDate = moment(str1, "MM-DD-YYYY hh:mm a", true);
+      var endDate = moment(str2, "MM-DD-YYYY hh:mm a", true);
 
       var newBooking = new booking(bookingName, startDate, endDate);
 
-      console.log(startDate.format());
-      console.log(endDate.format());
+      calendar.push(newBooking);
+      calendar.sort(function(a, b) { return a.start.unix() - b.start.unix(); });
 
-      calendar[startDate.unix()] = newBooking;
-      calendar.sort();
+      console.log(calendar);
+      $('#complete-dialog').modal('hide'); // hide add dialog
+      alert("Added " + bookingName + " on " + startDate.format("MMM D, YYYY"));
     }
 
     function prevWeek() {
@@ -176,7 +172,7 @@
 
     // Month dd, YYYY format
     function dateToStr(moment) {
-        return moment.format("MMM D, YYYY")
+        return moment.format("MMM D, YYYY");
     }
 
     function renderWeekTitle() {
