@@ -81,6 +81,7 @@
                         <span class="input-group-addon" id="sizing-addon2"><i class="mdi-action-event"></i></span>
                         <input type="text" class="form-control" placeholder="Date" id="datePicker">
                       </div>
+                      <h4>24 hour time</h4>
                       <div class="input-group" style="margin-top:15px;">
                         <span class="input-group-addon" id="sizing-addon2"><i class="mdi-action-alarm"></i></span>
                         <div class="input-append bootstrap-timepicker">
@@ -134,6 +135,11 @@
       this.end = end;
     }
 
+    function resetInputs() {
+      $("#bookingName").val("");
+      $("#datePicker").val("");
+    }
+
     // functions
     function addBooking() {
       var bookingName = $("#bookingName").val();
@@ -143,8 +149,12 @@
 
       var str1 = datePicker + " " + startTime;
       var str2 = datePicker + " " + endTime;
-      var startDate = moment(str1, "MM-DD-YYYY hh:mm a", true);
-      var endDate = moment(str2, "MM-DD-YYYY hh:mm a", true);
+      var startDate = moment(str1, "MM-DD-YYYY H:m", true);
+      var endDate = moment(str2, "MM-DD-YYYY H:m", true);
+
+      console.log(str1);
+      console.log(startDate.format("MMM D, YYYY"));
+      console.log(startDate.isValid());
 
       var newBooking = new booking(bookingName, startDate, endDate);
 
@@ -153,6 +163,7 @@
 
       console.log(calendar);
       $('#complete-dialog').modal('hide'); // hide add dialog
+      resetInputs();
       alert("Added " + bookingName + " on " + startDate.format("MMM D, YYYY"));
     }
 
@@ -222,8 +233,8 @@
           format: "mm-dd-yyyy"
         });
 
-        $('#startTime').timepicker();
-        $('#endTime').timepicker();
+        $('#startTime').timepicker({showMeridian:false});
+        $('#endTime').timepicker({showMeridian:false});
     });
 
 </script>
