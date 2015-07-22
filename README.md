@@ -7,4 +7,4 @@ Made as an exercise using:
 5. Bootstrap Datepicker
 
 # Live Page
-`http://rapsin4.github.io/material-week-calendar/`
+`[http://rapsin4.github.io/material-week-calendar/](https://www.rapsin4.github.io/material-week-calendar)`
