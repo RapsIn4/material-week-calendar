@@ -1,5 +1,6 @@
 # Material Designed Week View Calendar
 Made as an exercise using:
+
 1. jQuery
 2. Material Bootstrap
 3. Moment.js
