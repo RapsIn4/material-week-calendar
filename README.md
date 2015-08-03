@@ -8,4 +8,4 @@ Made as an exercise using:
 5. [Bootstrap Datepicker](https://bootstrap-datepicker.readthedocs.org/en/latest/)
 
 # Live Page
-[http://rapsin4.github.io/material-week-calendar/](https://www.rapsin4.github.io/material-week-calendar)
+[http://rapsin4.github.io/material-week-calendar/](http://www.rapsin4.github.io/material-week-calendar)
